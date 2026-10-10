@@ -19,7 +19,7 @@ const sections = [
     { href: '/tarefas', label: 'Tarefas', icon: ListTodo, ready: true },
   ] },
   { label: 'FERRAMENTAS', links: [
-    { href: '/ai', label: 'Arceuz AI', icon: BrainCircuit, ready: false },
+    { href: '/ai', label: 'Arceuz AI', icon: BrainCircuit, ready: true },
     { href: '/settings', label: 'Configurações', icon: Settings2, ready: true },
   ] },
 ]
@@ -52,7 +52,7 @@ export function Shell({ member, children }: { member: Member, children: React.Re
         <div className="topbar-actions"><span className="private-pill"><span className="online-dot"/>Ambiente privado</span><Link className="help-link" href="/settings">Minha conta<ArrowUpRight size={14}/></Link><form action={signOutAction}><button className="icon-button" aria-label="Sair da conta" title="Sair"><LogOut size={17}/></button></form></div>
       </header>
       <main className="main-content">{children}</main>
-      <footer className="app-footer"><span>© {new Date().getFullYear()} Arceuz Technology</span><span>Arceuz Hub · v0.8 · Financeiro</span></footer>
+      <footer className="app-footer"><span>© {new Date().getFullYear()} Arceuz Technology</span><span>Arceuz Hub · v0.9 · Arceuz AI</span></footer>
     </div>
   </div>
 }

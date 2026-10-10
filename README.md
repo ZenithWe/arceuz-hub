@@ -111,3 +111,14 @@ Fase 3: relacionar e acompanhar repositórios GitHub cadastrados, com sincroniza
 ## Etapa atual: repositório GitHub
 
 O repositório `ZenithWe/arceuz-hub` foi encontrado, mas está **público**. Antes de publicar qualquer arquivo privado, altere a visibilidade para **Private** em `https://github.com/ZenithWe/arceuz-hub/settings` > Danger Zone > Change repository visibility. Nenhum segredo deve ser enviado ao repositório, mesmo após a mudança. O pacote contém `.github/workflows/ci.yml` para validar o build em GitHub Actions sem variáveis de ambiente confidenciais.
+
+
+## Arceuz AI (v0.9)
+
+- Conversas privadas e exclusao por usuario, com seis modos de IA.
+- API de Chat Completions da Groq no servidor, usando openai/gpt-oss-20b.
+- Configure GROQ_API_KEY exclusivamente em Environment no Render. Nunca coloque chaves no GitHub ou no navegador.
+- Obtenha a chave em https://console.groq.com/keys . A interface informa se ainda nao foi configurada.
+- Limite interno de 20 respostas por conta a cada 24 horas.
+- As mensagens sao armazenadas no Neon e transmitidas a Groq para gerar respostas. Nao envie senhas ou outros segredos.
+- A IA nao modifica os dados da Arceuz automaticamente.

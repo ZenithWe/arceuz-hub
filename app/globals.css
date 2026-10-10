@@ -32,3 +32,38 @@
 @media(max-width:1200px){.project-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.project-card-grid,.project-form-grid{grid-template-columns:1fr}.project-filters{flex-wrap:wrap}.project-search{flex-basis:100%}.project-card{padding:17px}.project-editor{padding:17px}.project-archive{align-items:flex-start;flex-direction:column}.project-counts{gap:9px}}
 @media(max-width:420px){.project-counts{grid-template-columns:1fr}.project-filters select{width:100%}}
+
+
+/* Módulo Clientes — Arceuz Hub */
+.client-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.client-card{padding:22px;min-width:0;display:flex;flex-direction:column;gap:13px}
+.client-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.client-monogram{width:42px;height:42px;display:grid;place-items:center;border-radius:11px;background:var(--accent-soft);color:var(--accent);font-size:19px;font-weight:800;border:1px solid rgba(255,130,45,.18)}
+.client-status{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:6px;background:var(--surface2);padding:6px 9px;font-size:10px;font-weight:750;color:var(--muted)}
+.client-ativo{color:#5fd395;background:rgba(83,199,135,.09);border-color:rgba(83,199,135,.25)}
+.client-negociacao{color:var(--accent);background:var(--accent-soft);border-color:rgba(255,130,45,.25)}
+.client-inativo{color:var(--subtle)}
+.client-name{display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:17px;color:var(--text);font-weight:800;overflow-wrap:anywhere}
+.client-name:hover{color:var(--accent)}.client-name svg{color:var(--accent);flex:none}
+.client-contact{font-size:12px;color:var(--muted);margin:0}
+.client-information{min-height:48px;display:flex;flex-direction:column;gap:9px}
+.client-information span{display:flex;align-items:center;gap:9px;font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.client-information svg{flex:none;color:var(--accent)}
+.client-card-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:7px}
+.client-card-bottom span,.client-card-bottom a{display:inline-flex;align-items:center;gap:6px;font-size:11px}
+.client-card-bottom span{color:var(--muted)}.client-card-bottom a{color:var(--accent)}
+.client-projects{margin-top:19px;max-width:1010px;padding:24px}
+.client-projects-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.client-projects-head h2{font-size:16px;margin:0 0 6px}.client-projects-head p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.client-project-list{display:flex;flex-direction:column;gap:10px}
+.client-project-item{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.client-project-item>div,.client-project-item a{display:flex;align-items:center;gap:10px;min-width:0}
+.client-project-item>div>svg{flex:none;color:var(--accent)}.client-project-item a{color:var(--text);font-size:12px;overflow-wrap:anywhere}
+.client-project-item a:hover{color:var(--accent)}.client-project-item button{padding:8px 11px}
+.client-empty{padding:22px;background:var(--surface2);border:1px dashed var(--border);border-radius:9px;color:var(--muted);font-size:12px;text-align:center}
+.client-attach{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+.client-attach label{display:block;font-size:11px;font-weight:800;margin-bottom:10px}
+.client-attach>div{display:flex;gap:10px;align-items:center}
+.client-attach select{flex:1;min-width:0;min-height:43px;border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:8px;padding:0 12px;font-size:12px}
+@media(max-width:1200px){.client-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.client-card-grid{grid-template-columns:1fr}.client-projects{padding:17px}.client-projects-head{align-items:flex-start;flex-direction:column}.client-attach>div{flex-direction:column;align-items:stretch}.client-project-item{align-items:flex-start;flex-direction:column}}

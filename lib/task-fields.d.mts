@@ -1,12 +1,11 @@
-
-export declare const taskStatuses: [string,string][]
-export declare const taskPriorities: [string,string][]
-export declare function knownTaskStatus(x:unknown):boolean
-export declare function knownTaskPriority(x:unknown):boolean
-export declare function taskStatusName(x:string):string
-export declare function taskPriorityName(x:string):string
-export declare function isUUID(x:unknown):x is string
-export declare function isTaskDate(input:string):boolean
-export declare function brDate(input:string|null):string
-export type TaskData={title:string;description:string;priority:string;status:string;due_on:string|null;assigned_to:string|null;project_id:string|null}
-export declare function parseTaskFields(raw:Record<string,unknown>):{value:TaskData;error?:never}|{error:string;value?:never}
+export declare const taskStatuses:string[][]
+export declare const taskPriorities:string[][]
+export declare function knownTaskStatus(v:unknown):boolean
+export declare function knownTaskPriority(v:unknown):boolean
+export declare function taskStatusName(v:string):string
+export declare function taskPriorityName(v:string):string
+export declare function isUuid(v:unknown):boolean
+export type TaskData={title:string;description:string;status:string;priority:string;due_on:string|null;assigned_to:string|null;project_id:string|null}
+export declare function normalizeTaskInput(raw:Record<string,unknown>):{error:string;value?:never}|{value:TaskData;error?:never}
+export declare function isOverdue(date:string|null,status:string,today:string):boolean
+export declare function formatTaskDate(date:string|null):string

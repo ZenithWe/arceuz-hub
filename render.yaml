@@ -1,0 +1,18 @@
+# Restricted preview only. Render's free web service sleeps after 15m idle;
+# do not treat it as reliable production infrastructure.
+services:
+  - type: web
+    name: arceuz-hub-staging
+    runtime: node
+    plan: free
+    region: ohio
+    buildCommand: npm install --no-audit --no-fund && npm run build
+    startCommand: npm run start -- -H 0.0.0.0 -p $PORT
+    healthCheckPath: /login
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false

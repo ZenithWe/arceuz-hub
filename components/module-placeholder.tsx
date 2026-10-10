@@ -1,0 +1,5 @@
+import Link from 'next/link'
+import { ArrowLeft, ArrowUpRight, Construction, type LucideIcon } from 'lucide-react'
+export function ModulePlaceholder({ title, description, phase, icon: Icon, planned }: {
+  title: string; description: string; phase: number; icon: LucideIcon; planned: string[]
+}) { return <div className="module-page"><Link href="/dashboard" className="back-link"><ArrowLeft size={16}/> Voltar ao dashboard</Link><div className="page-header"><div><div className="page-eyebrow">ARCEUZ / WORKSPACE</div><h1>{title}</h1><p>{description}</p></div></div><div className="module-placeholder"><div className="module-tag"><Construction size={15}/> PLANEJADO · FASE {phase}</div><div className="module-big-icon"><Icon size={34}/></div><h2>Este módulo está em desenvolvimento.</h2><p>A Fase 1 entrega a fundação segura do Hub. As funcionalidades abaixo serão implementadas na etapa correspondente, sem usar demonstrações falsas.</p><div className="planned-grid">{planned.map(x=><div key={x}><span className="planned-dot"/>{x}</div>)}</div><Link href="/dashboard" className="primary-button">Voltar à visão geral <ArrowUpRight size={17}/></Link></div></div> }

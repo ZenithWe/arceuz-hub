@@ -1,17 +1,9 @@
 import 'server-only'
 import { db } from './db'
 import { requireMember } from './auth'
-import { eventLabels } from './activity-labels.mjs'
-export type ActivityAction=keyof typeof eventLabels
 export type ActivityEntity='client'|'project'|'task'
 export type EmployeeInfo={id:string;name:string;email:string;title:string|null;avatar_url:string|null;slot:string;last_login_at:string|null;last_action:string|null;last_subject:string|null;last_action_at:string|null;event_count:number}
 export type ActivityEvent={id:string;member_id:string;name:string;action:string;entity_type:ActivityEntity|null;entity_id:string|null;subject:string;created_at:string}
-export async function recordActivity(memberId:string,action:ActivityAction,entityType:ActivityEntity|null=null,entityId:string|null=null,subject=''){
- const sql=db()
- // Whitelisted actions and size limit. No passwords, tokens, personal browsing or form contents in the log.
- await sql`INSERT INTO hub_activity_events(member_id,action,entity_type,entity_id,subject)
- VALUES(${memberId,${action,${entityType,${entityId,${{subject.slice(0,160)})`
-}
 export async function employeeDashboard(employeeId?:string) {
  await requireMember()
  const sql=db()
@@ -31,7 +23,7 @@ export async function employeeDashboard(employeeId?:string) {
  const entries=await sql`SELECT a.id::text AS id,a.member_id,m.name,a.action,a.entity_type,
  a.entity_id,a.subject,a.created_at::text AS created_at
  FROM hub_activity_events a JOIN hub_members m ON m.id=a.member_id
- WHERE (${id='all' OR a.member_id::text=${id)
+ WHERE (${id}='all' OR a.member_id::text=${id})
  ORDER BY a.created_at DESC,a.id DESC LIMIT 60`
  return {employees:employees as EmployeeInfo[],events:entries as ActivityEvent[],selected:id}
 }

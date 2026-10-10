@@ -8,8 +8,8 @@ export type ActivityEntity='client'|'project'|'task'
 export async function recordActivity(memberId:string,action:ActivityAction,entityType:ActivityEntity|null=null,entityId:string|null=null,subject=''){
  try{
   const sql=db()
-  // Only business actions. Never persist credentials, session tokens, IPs or browser tracking.
+  // Record business actions only; no passwords, tokens, IP addresses or personal browsing.
   await sql`INSERT INTO hub_activity_events(member_id,action,entity_type,entity_id,subject)
-   VALUES(${memberId,${action,${entityType,${entityId,${{subject.slice(0,160)})`
+   VALUES(${memberId},${action},${entityType},${entityId},${subject.slice(0,160)})`
  }catch(error){console.error('Audit event failed',error instanceof Error?error.message:'unknown')}
 }

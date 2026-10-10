@@ -1,7 +1,7 @@
 import 'server-only'
 import { db } from './db'
 import { requireMember } from './auth'
-export type ActivityEntity='client'|'project'|'task'|'finance'|'repository'
+export type ActivityEntity='client'|'project'|'task'|'finance'|'repository'|'proposal'
 export type EmployeeInfo={id:string;name:string;email:string;title:string|null;avatar_url:string|null;slot:string;last_login_at:string|null;last_action:string|null;last_subject:string|null;last_action_at:string|null;event_count:number}
 export type ActivityEvent={id:string;member_id:string;name:string;action:string;entity_type:ActivityEntity|null;entity_id:string|null;subject:string;created_at:string}
 export async function employeeDashboard(employeeId?:string) {

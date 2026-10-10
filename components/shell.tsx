@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, FolderKanban, GitBranch, Wallet, UsersRound, ListTodo, BrainCircuit, Settings2, LogOut, Menu, X, ChevronDown, ShieldCheck, ArrowUpRight, CircleDot } from 'lucide-react'
+import { FileText, LayoutDashboard, FolderKanban, GitBranch, Wallet, UsersRound, ListTodo, BrainCircuit, Settings2, LogOut, Menu, X, ChevronDown, ShieldCheck, ArrowUpRight, CircleDot } from 'lucide-react'
 import type { Member } from '@/lib/auth'
 import { signOutAction } from '@/app/(private)/actions'
 import { Brand } from './brand'
@@ -15,6 +15,7 @@ const sections = [
   { label: 'GESTÃO', links: [
     { href: '/financeiro', label: 'Financeiro', icon: Wallet, ready: true },
     { href: '/clientes', label: 'Clientes', icon: UsersRound, ready: true },
+    { href: '/propostas', label: 'Propostas', icon: FileText, ready: true },
     { href: '/funcionarios', label: 'Funcionários', icon: UsersRound, ready: true },
     { href: '/tarefas', label: 'Tarefas', icon: ListTodo, ready: true },
   ] },
@@ -52,7 +53,7 @@ export function Shell({ member, children }: { member: Member, children: React.Re
         <div className="topbar-actions"><span className="private-pill"><span className="online-dot"/>Ambiente privado</span><Link className="help-link" href="/settings">Minha conta<ArrowUpRight size={14}/></Link><form action={signOutAction}><button className="icon-button" aria-label="Sair da conta" title="Sair"><LogOut size={17}/></button></form></div>
       </header>
       <main className="main-content">{children}</main>
-      <footer className="app-footer"><span>© {new Date().getFullYear()} Arceuz Technology</span><span>Arceuz Hub · v0.9 · Arceuz AI</span></footer>
+      <footer className="app-footer"><span>© {new Date().getFullYear()} Arceuz Technology</span><span>Arceuz Hub · v1.0 · Propostas</span></footer>
     </div>
   </div>
 }

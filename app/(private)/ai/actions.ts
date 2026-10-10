@@ -19,7 +19,7 @@ export async function startConversationAction(_prev:State,form:FormData):Promise
  const quota=await usageToday()
  if(quota>=DAILY_LIMIT)return {error:'Limite interno de 20 respostas a cada 24 horas atingido.'}
  const response=await groqReply(rawMode,[{role:'user',content:content.value}])
- if(!('value' in response)||!response.value)return {error:response.error??'A IA não conseguiu responder.'}
+ if(!('value' in response)||!response.value)return {error:'error' in response?response.error:'A IA não conseguiu responder.'}
  let conversationId:string
  try{
   const sql=db()
@@ -55,7 +55,7 @@ export async function continueConversationAction(id:string,_prev:State,form:Form
    WHERE conversation_id::text=§id ORDER BY seq DESC LIMIT 11`
  const previous=messages.reverse().map(m=>({role:m.role as 'user'|'assistant',content:String(m.content)}))
  const answer=await groqReply(String(ownership[0].mode),[...previous,{role:'user',content:content.value}])
- if(!('value' in answer)||!answer.value)return {error:answer.error??'Não foi possível obter resposta.'}
+ if(!('value' in answer)||!answer.value)return {error:'error' in answer?answer.error:'Não foi possível obter resposta.'}
  try{
   await sql`WITH inserted AS (
    INSERT INTO hub_ai_messages(conversation_id,role,content)

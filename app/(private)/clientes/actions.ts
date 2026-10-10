@@ -71,3 +71,14 @@ export async function detachProjectAction(clientId:string,projectId:string,_form
  revalidatePath('/projects');revalidatePath('/dashboard');revalidatePath('/clientes');revalidatePath(`/clientes/${clientId}`)
  redirect(`/clientes/${clientId}?vinculo=removido`)
 }
+
+export async function deleteClientAction(id:string,form:FormData){
+ const member=await requireMember()
+ if(!validId(id)||String(form.get('confirmation')??'')!=='EXCLUIR')redirect('/clientes/'+id+'?excluir=confirmar')
+ const sql=db()
+ const rows=await sql`DELETE FROM hub_clients WHERE id::text=${id} RETURNING name`
+ if(!rows.length)redirect('/clientes?excluir=nao-encontrado')
+ await recordActivity(member.id,'client_deleted','client',id,String(rows[0].name))
+ revalidatePath('/clientes');revalidatePath('/projects');revalidatePath('/dashboard')
+ redirect('/clientes?excluido=1')
+}

@@ -89,3 +89,14 @@ export async function archiveProjectAction(form:FormData) {
   revalidatePath('/projects');revalidatePath('/dashboard');revalidatePath(`/projects/${id}`)
   redirect('/projects?status=archived')
 }
+
+export async function deleteProjectAction(id:string,form:FormData){
+ const member=await requireMember()
+ if(!/^[0-9a-f-]{36}$/i.test(id)||String(form.get('confirmation')??'')!=='EXCLUIR')redirect('/projects/'+id+'?excluir=confirmar')
+ const sql=db()
+ const rows=await sql`DELETE FROM hub_projects WHERE id::text=${id} RETURNING name`
+ if(!rows.length)redirect('/projects?excluir=nao-encontrado')
+ await recordActivity(member.id,'project_deleted','project',id,String(rows[0].name))
+ revalidatePath('/projects');revalidatePath('/clientes');revalidatePath('/tarefas');revalidatePath('/financeiro');revalidatePath('/github');revalidatePath('/dashboard')
+ redirect('/projects?excluido=1')
+}

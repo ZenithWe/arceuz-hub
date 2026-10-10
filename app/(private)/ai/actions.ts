@@ -47,25 +47,25 @@ export async function continueConversationAction(id:string,_prev:State,form:Form
  if(!content.value)return {error:content.error??'Mensagem inválida.'}
  const sql=db()
  const ownership=await sql`SELECT id,mode FROM hub_ai_conversations
-   WHERE id::text=§id AND owner_id=${member.id} LIMIT 1`
+   WHERE id::text=${id} AND owner_id=${member.id} LIMIT 1`
  if(!ownership.length)return {error:'A conversa não foi encontrada na sua conta.'}
  const quota=await usageToday()
  if(quota>=DAILY_LIMIT)return {error:'Limite de 20 respostas nas últimas 24 horas atingido.'}
  const messages=await sql`SELECT role,content FROM hub_ai_messages
-   WHERE conversation_id::text=§id ORDER BY seq DESC LIMIT 11`
+   WHERE conversation_id::text=${id} ORDER BY seq DESC LIMIT 11`
  const previous=messages.reverse().map(m=>({role:m.role as 'user'|'assistant',content:String(m.content)}))
  const answer=await groqReply(String(ownership[0].mode),[...previous,{role:'user',content:content.value}])
  if(!('value' in answer)||!answer.value)return {error:'error' in answer?answer.error:'Não foi possível obter resposta.'}
  try{
   await sql`WITH inserted AS (
    INSERT INTO hub_ai_messages(conversation_id,role,content)
-   SELECT §id::uuid,m.role,m.content FROM
+   SELECT ${id}::uuid,m.role,m.content FROM
     (VALUES ('user'::text,${content.value}),('assistant'::text,${answer.value})) AS m(role,content)
-   WHERE EXISTS(SELECT 1 FROM hub_ai_conversations WHERE id::text=§id AND owner_id=${member.id})
+   WHERE EXISTS(SELECT 1 FROM hub_ai_conversations WHERE id::text=${id} AND owner_id=${member.id})
    RETURNING id
   )
   UPDATE hub_ai_conversations SET updated_at=now()
-  WHERE id::text=§id AND owner_id=${member.id} AND EXISTS(SELECT 1 FROM inserted)`
+  WHERE id::text=${id} AND owner_id=${member.id} AND EXISTS(SELECT 1 FROM inserted)`
  }catch{return {error:'A IA respondeu, mas não foi possível salvar as novas mensagens.'}}
  revalidatePath('/ai')
  revalidatePath('/ai/'+id)
@@ -75,7 +75,7 @@ export async function deleteConversationAction(id:string,_form:FormData){
  const member=await requireMember()
  if(!isChatId(id))redirect('/ai')
  const sql=db()
- await sql`DELETE FROM hub_ai_conversations WHERE id::text=§id AND owner_id=${member.id}`
+ await sql`DELETE FROM hub_ai_conversations WHERE id::text=${id} AND owner_id=${member.id}`
  revalidatePath('/ai')
  redirect('/ai?excluida=1')
 }

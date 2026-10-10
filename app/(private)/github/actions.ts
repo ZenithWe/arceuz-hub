@@ -57,7 +57,7 @@ export async function linkRepositoryProjectAction(id:string,_prev:State,form:For
  if(!(await validLinkedProject(project.value??null)))return {error:'Projeto não encontrado.'}
  try{
   const sql=db()
-  const rows=await sql`UPDATE hub_repositories SET project_id=${project.value??null} WHERE id::text=§id RETURNING id`
+  const rows=await sql`UPDATE hub_repositories SET project_id=${project.value??null} WHERE id::text=${id} RETURNING id`
   if(!rows.length)return {error:'Repositório não encontrado.'}
  }catch{return {error:'Não foi possível atualizar o vínculo.'}}
  revalidatePath('/github');revalidatePath('/projects');revalidatePath('/github/'+id)
@@ -68,16 +68,16 @@ export async function syncRepositoryAction(form:FormData){
  const id=String(form.get('id')??'')
  if(!normalizeRepositoryProject(id).value)redirect('/github?erro=1')
  const sql=db()
- const entries=await sql`SELECT github_full_name FROM hub_repositories WHERE id::text=§id LIMIT 1`
+ const entries=await sql`SELECT github_full_name FROM hub_repositories WHERE id::text=${id} LIMIT 1`
  if(!entries.length)redirect('/github?erro=1')
  const metadata=await fetchPublicRepo(String(entries[0].github_full_name))
  if(metadata.status==='ok'){
   await sql`UPDATE hub_repositories SET description=${metadata.description},language=${metadata.language},
    default_branch=${metadata.default_branch},stars=${metadata.stars},visibility='public',
    sync_status='ok',last_synced_at=${metadata.last_synced_at},
-   last_commit_at=${metadata.last_commit_at},updated_at=${metadata.updated_at} WHERE id::text=§id`
+   last_commit_at=${metadata.last_commit_at},updated_at=${metadata.updated_at} WHERE id::text=${id}`
  }else{
-  await sql`UPDATE hub_repositories SET sync_status='unavailable',last_synced_at=now() WHERE id::text=§id`
+  await sql`UPDATE hub_repositories SET sync_status='unavailable',last_synced_at=now() WHERE id::text=${id}`
  }
  revalidatePath('/github');revalidatePath('/github/'+id)
  redirect('/github/'+id+(metadata.status==='ok'?'?sincronizado=1':'?indisponivel=1'))
@@ -88,7 +88,7 @@ export async function removeRepositoryAction(id:string,form:FormData){
  if(String(form.get('confirm')??'').trim().toUpperCase()!=='REMOVER')redirect('/github/'+id+'?confirmar=1')
  const sql=db()
  // Removes only Hub registration, never touches or deletes the GitHub repository itself.
- await sql`DELETE FROM hub_repositories WHERE id::text=§id`
+ await sql`DELETE FROM hub_repositories WHERE id::text=${id}`
  revalidatePath('/github');revalidatePath('/dashboard')
  redirect('/github?removido=1')
 }

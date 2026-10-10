@@ -4,8 +4,9 @@ export type ActivityAction=
  'login'|'logout'|'client_created'|'client_updated'|'client_project_linked'|'client_project_unlinked'|
  'project_created'|'project_updated'|'project_archived'|'task_created'|'task_updated'|
  'task_status_changed'|'profile_updated'|'password_changed'|
- 'finance_created'|'finance_updated'|'finance_status_changed'
-export type ActivityEntity='client'|'project'|'task'|'finance'
+ 'finance_created'|'finance_updated'|'finance_status_changed'|
+ 'client_deleted'|'project_deleted'|'task_deleted'|'finance_deleted'|'repository_deleted'
+export type ActivityEntity='client'|'project'|'task'|'finance'|'repository'
 export async function recordActivity(memberId:string,action:ActivityAction,entityType:ActivityEntity|null=null,entityId:string|null=null,subject=''){
  try{
   const sql=db()

@@ -74,3 +74,14 @@ export async function quickTaskStatusAction(form:FormData){
  refresh(id)
  redirect('/tarefas?alterada=1')
 }
+
+export async function deleteTaskAction(id:string,form:FormData){
+ const member=await requireMember()
+ if(!isUUID(id)||String(form.get('confirmation')??'')!=='EXCLUIR')redirect('/tarefas/'+id+'?excluir=confirmar')
+ const sql=db()
+ const rows=await sql`DELETE FROM hub_tasks WHERE id::text=${id} RETURNING title`
+ if(!rows.length)redirect('/tarefas?excluir=nao-encontrado')
+ await recordActivity(member.id,'task_deleted','task',id,String(rows[0].title))
+ revalidatePath('/tarefas');revalidatePath('/dashboard')
+ redirect('/tarefas?excluida=1')
+}

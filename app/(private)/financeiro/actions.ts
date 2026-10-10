@@ -74,3 +74,14 @@ export async function changeFinanceStatusAction(form:FormData){
  refresh(id)
  redirect('/financeiro?alterado=1')
 }
+
+export async function deleteFinanceAction(id:string,form:FormData){
+ const member=await requireMember()
+ if(!isFinanceId(id)||String(form.get('confirmation')??'')!=='EXCLUIR')redirect('/financeiro/'+id+'?excluir=confirmar')
+ const sql=db()
+ const rows=await sql`DELETE FROM hub_financial_entries WHERE id::text=${id} RETURNING title`
+ if(!rows.length)redirect('/financeiro?excluir=nao-encontrado')
+ await recordActivity(member.id,'finance_deleted','finance',id,String(rows[0].title))
+ revalidatePath('/financeiro');revalidatePath('/dashboard')
+ redirect('/financeiro?excluido=1')
+}

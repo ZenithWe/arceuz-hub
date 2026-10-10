@@ -2,6 +2,7 @@
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { requireMember,updateMemberProfile,updateMemberPassword } from '@/lib/auth'
+import { recordActivity } from '@/lib/activity-write'
 const updateSchema=z.object({
   name:z.string().trim().min(2,'Informe seu nome.').max(90),
   title:z.string().trim().max(90),bio:z.string().trim().max(500),
@@ -16,6 +17,7 @@ export async function updateSettingsAction(_state:SettingsState,formData:FormDat
   try {
     const ok=await updateMemberProfile(member,{...parsed.data,avatar_url:parsed.data.avatar_url||null})
     if(!ok) return {error:true,message:'Não foi possível salvar seu perfil.'}
+    await recordActivity(member.id,'profile_updated')
   } catch {return {error:true,message:'Falha ao salvar. Tente novamente.'}}
   revalidatePath('/settings');revalidatePath('/dashboard')
   return {error:false,message:'Preferências salvas com sucesso.'}
@@ -33,6 +35,7 @@ export async function changePasswordAction(_state:SettingsState,formData:FormDat
   if(parsed.data.currentPassword===parsed.data.newPassword) return {error:true,message:'Escolha uma senha diferente da atual.'}
   try {
     const ok=await updateMemberPassword(member,parsed.data.currentPassword,parsed.data.newPassword)
+    if(ok)await recordActivity(member.id,'password_changed')
     return ok ? {error:false,message:'Senha alterada. Outras sessões foram encerradas.'}:
       {error:true,message:'Senha atual incorreta ou alteração não concluída.'}
   } catch {return {error:true,message:'Não foi possível alterar a senha.'}}

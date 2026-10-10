@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { requireMember } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { recordActivity } from '@/lib/activity-write'
 import { isUUID,parseTaskFields,knownTaskStatus } from '@/lib/task-fields.mjs'
 type TaskState={error:string}
 function dataFrom(form:FormData){
@@ -25,7 +26,7 @@ async function validateRefs(assigned_to:string|null,project_id:string|null){
 }
 function refresh(id?:string){revalidatePath('/tarefas');revalidatePath('/dashboard');if(id)revalidatePath(`/tarefas/${id}`)}
 export async function createTaskAction(_previous:TaskState,form:FormData):Promise<TaskState>{
- await requireMember()
+ const member=await requireMember()
  const p=dataFrom(form)
  if(!p.value)return {error:p.error??'Dados inválidos.'}
  const x=p.value,relationError=await validateRefs(x.assigned_to,x.project_id)
@@ -39,11 +40,12 @@ export async function createTaskAction(_previous:TaskState,form:FormData):Promis
   RETURNING id`
   id=String(rows[0].id)
  }catch{return {error:'Não foi possível criar a tarefa.'}}
+ await recordActivity(member.id,'task_created','task',id,x.title)
  refresh(id)
  redirect(`/tarefas/${id}?criada=1`)
 }
 export async function editTaskAction(id:string,_previous:TaskState,form:FormData):Promise<TaskState>{
- await requireMember()
+ const member=await requireMember()
  if(!isUUID(id))return {error:'Tarefa inválida.'}
  const p=dataFrom(form)
  if(!p.value)return {error:p.error??'Dados inválidos.'}
@@ -57,16 +59,18 @@ export async function editTaskAction(id:string,_previous:TaskState,form:FormData
   WHERE id::text=${id} RETURNING id`
   if(!rows.length)return {error:'Tarefa não encontrada.'}
  }catch{return {error:'Não foi possível salvar a tarefa.'}}
+ await recordActivity(member.id,'task_updated','task',id,x.title)
  refresh(id)
  redirect(`/tarefas/${id}?salva=1`)
 }
 export async function quickTaskStatusAction(form:FormData){
- await requireMember()
+ const member=await requireMember()
  const id=String(form.get('id')??''),status=String(form.get('status')??'')
  if(!isUUID(id)||!knownTaskStatus(status))redirect('/tarefas')
  const sql=db()
- await sql`UPDATE hub_tasks SET status=${status},updated_at=now(),
- completed_at=CASE WHEN ${status}='done' THEN COALESCE(completed_at,now()) ELSE NULL END WHERE id::text=${id}`
+ const rows=await sql`UPDATE hub_tasks SET status=${status},updated_at=now(),
+ completed_at=CASE WHEN ${status}='done' THEN COALESCE(completed_at,now()) ELSE NULL END WHERE id::text=${id} RETURNING title`
+ if(rows[0])await recordActivity(member.id,'task_status_changed','task',id,String(rows[0].title))
  refresh(id)
  redirect('/tarefas?alterada=1')
 }

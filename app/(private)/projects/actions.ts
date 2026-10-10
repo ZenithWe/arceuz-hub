@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { requireMember } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { recordActivity } from '@/lib/activity-write'
 import { knownStatus,normalizeProjectURL,parseBRLCents,validISODate } from '@/lib/project-fields.mjs'
 
 type State={error:string}
@@ -38,7 +39,7 @@ async function ensureOwner(owner:string) {
   return owner
 }
 export async function createProjectAction(_prev:State,form:FormData):Promise<State>{
-  await requireMember()
+  const member=await requireMember()
   let id:string
   try {
     const data=parseInput(form)
@@ -54,11 +55,12 @@ export async function createProjectAction(_prev:State,form:FormData):Promise<Sta
   } catch(e) {
     return {error:e instanceof ProjectValidationError?e.message:'Não foi possível salvar o projeto.'}
   }
+  await recordActivity(member.id,'project_created','project',id,String(form.get('name')??''))
   revalidatePath('/projects');revalidatePath('/dashboard')
   redirect(`/projects/${id}?criado=1`)
 }
 export async function editProjectAction(id:string,_prev:State,form:FormData):Promise<State>{
-  await requireMember()
+  const member=await requireMember()
   if(!/^[0-9a-f-]{36}$/i.test(id))return {error:'Projeto inválido.'}
   try {
     const data=parseInput(form)
@@ -73,15 +75,17 @@ export async function editProjectAction(id:string,_prev:State,form:FormData):Pro
       WHERE id::text=${id} RETURNING id`
     if(!result.length)return {error:'Projeto não encontrado.'}
   } catch(e) {return {error:e instanceof ProjectValidationError?e.message:'Não foi possível salvar o projeto.'}}
+  await recordActivity(member.id,'project_updated','project',id,String(form.get('name')??''))
   revalidatePath('/projects');revalidatePath(`/projects/${id}`);revalidatePath('/dashboard')
   redirect(`/projects/${id}?salvo=1`)
 }
 export async function archiveProjectAction(form:FormData) {
-  await requireMember()
+  const member=await requireMember()
   const id=String(form.get('id')??'')
   if(!/^[0-9a-f-]{36}$/i.test(id))redirect('/projects')
   const sql=db()
-  await sql`UPDATE hub_projects SET status='archived' WHERE id::text=${id}`
+  const rows=await sql`UPDATE hub_projects SET status='archived' WHERE id::text=${id} RETURNING name`
+  if(rows[0]) await recordActivity(member.id,'project_archived','project',id,String(rows[0].name))
   revalidatePath('/projects');revalidatePath('/dashboard');revalidatePath(`/projects/${id}`)
   redirect('/projects?status=archived')
 }

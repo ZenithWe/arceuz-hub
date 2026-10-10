@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { db } from './db'
 import { isHubConfigured } from './config'
+import { recordActivity } from './activity-write'
 import { sessionDigest, newSessionToken, checkPassword, hashPassword, emailDigest, acceptedPassword } from './password.mjs'
 
 export type Member = {
@@ -69,6 +70,7 @@ export async function authenticate(email: string, password: string) {
   await sql`UPDATE hub_members SET last_seen_at=now() WHERE id=${users[0].id}`
   await sql`DELETE FROM hub_login_guards WHERE email_digest=${identity}`
   ;(await cookies()).set(COOKIE,token,cookieOptions())
+  await recordActivity(String(users[0].id),'login')
   return { ok: true }
 }
 
@@ -77,7 +79,8 @@ export async function endSession() {
   const token = store.get(COOKIE)?.value
   if (token && isHubConfigured()) {
     const sql = db()
-    await sql`DELETE FROM hub_sessions WHERE token_digest=${sessionDigest(token)}`
+    const rows=await sql`DELETE FROM hub_sessions WHERE token_digest=${sessionDigest(token)} RETURNING member_id`
+    if(rows[0]?.member_id) await recordActivity(String(rows[0].member_id),'logout')
   }
   store.delete(COOKIE)
 }

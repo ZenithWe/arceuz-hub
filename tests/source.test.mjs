@@ -43,14 +43,16 @@ test('no Supabase dependency or previous auth adapter remains',()=>{
   assert.equal(existsSync(new URL('../lib/supabase/server.ts',import.meta.url)),false)
   assert.ok(!readdirSync(new URL('../lib/',import.meta.url)).includes('supabase'))
 })
-test('Fase 2 projects are protected, paginated, and preserve archives',()=>{
+test('Projects preserve archive support and require explicit confirmation for deletion',()=>{
   const list=read('lib/projects.ts')
   const actions=read('app/(private)/projects/actions.ts')
   assert.match(list,/await requireMember\(\)/)
   assert.match(list,/LIMIT 20 OFFSET/)
   assert.match(actions,/await requireMember\(\)/)
   assert.match(actions,/UPDATE hub_projects SET status='archived'/)
-  assert.doesNotMatch(actions,/DELETE FROM hub_projects/)
+  assert.match(actions,/DELETE FROM hub_projects WHERE id::text=/)
+  assert.match(actions,/confirmation/)
+  assert.match(actions,/EXCLUIR/)
   assert.match(actions,/normalizeProjectURL/)
   assert.match(actions,/parseBRLCents/)
 })

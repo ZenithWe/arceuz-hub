@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { requireMember } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { recordActivity } from '@/lib/activity-write'
 import { fetchPublicRepo } from '@/lib/github-public'
 import { normalizeRepositoryInput, normalizeRepositoryProject } from '@/lib/repository-fields.mjs'
 import { validLinkedProject } from '@/lib/repositories'
@@ -83,12 +84,13 @@ export async function syncRepositoryAction(form:FormData){
  redirect('/github/'+id+(metadata.status==='ok'?'?sincronizado=1':'?indisponivel=1'))
 }
 export async function removeRepositoryAction(id:string,form:FormData){
- await requireMember()
+ const member=await requireMember()
  if(!normalizeRepositoryProject(id).value)redirect('/github')
  if(String(form.get('confirm')??'').trim().toUpperCase()!=='REMOVER')redirect('/github/'+id+'?confirmar=1')
  const sql=db()
  // Removes only Hub registration, never touches or deletes the GitHub repository itself.
- await sql`DELETE FROM hub_repositories WHERE id::text=${id}`
+ const rows=await sql`DELETE FROM hub_repositories WHERE id::text=${id} RETURNING github_full_name`
+ if(rows[0])await recordActivity(member.id,'repository_deleted','repository',id,String(rows[0].github_full_name))
  revalidatePath('/github');revalidatePath('/dashboard')
  redirect('/github?removido=1')
 }

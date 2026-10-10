@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { requireMember } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { recordActivity } from '@/lib/activity-write'
 import { parseFinanceEntry,isFinanceId } from '@/lib/finance-fields.mjs'
 import { verifyFinanceProject } from '@/lib/finance'
 
@@ -35,6 +36,7 @@ export async function createFinanceAction(_prev:State,form:FormData):Promise<Sta
  }catch{
   return {error:'Não foi possível salvar. Confira se a referência já não foi usada.'}
  }
+ await recordActivity(member.id,'finance_created','finance',newId,x.title)
  refresh(newId)
  redirect('/financeiro/'+newId+'?criado=1')
 }
@@ -55,6 +57,7 @@ export async function editFinanceAction(id:string,_prev:State,form:FormData):Pro
    WHERE id::text=${id} RETURNING id`
   if(!rows.length)return {error:'Lançamento não encontrado.'}
  }catch{return {error:'Não foi possível atualizar. Confira se a referência já não está cadastrada.'}}
+ await recordActivity(member.id,'finance_updated','finance',id,x.title)
  refresh(id)
  redirect('/financeiro/'+id+'?salvo=1')
 }
@@ -64,9 +67,10 @@ export async function changeFinanceStatusAction(form:FormData){
  if(!isFinanceId(id)||!['pending','paid','cancelled'].includes(status))redirect('/financeiro?erro=1')
  const sql=db()
  // A "paid" action uses Brasília's current date. This is a manual accounting status, not payment verification.
- await sql`UPDATE hub_financial_entries SET status=${status},
+ const rows=await sql`UPDATE hub_financial_entries SET status=${status},
  paid_on=CASE WHEN ${status}='paid' THEN COALESCE(paid_on,(now() AT TIME ZONE 'America/Sao_Paulo')::date) ELSE NULL END,
- updated_at=now(),updated_by=${member.id} WHERE id::text=${id}`
+ updated_at=now(),updated_by=${member.id} WHERE id::text=${id} RETURNING title`
+ if(rows[0])await recordActivity(member.id,'finance_status_changed','finance',id,String(rows[0].title))
  refresh(id)
  redirect('/financeiro?alterado=1')
 }

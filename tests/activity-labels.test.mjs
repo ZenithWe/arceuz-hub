@@ -9,7 +9,7 @@ test('eventos empresariais têm rótulos claros',()=>{
 })
 test('eventos desconhecidos não revelam detalhes de implementação',()=>{
  assert.equal(activityLabel('sensitive_field'),'Atividade no Hub')
- assert.equal(Object.values(eventLabels).length,14)
+ assert.equal(Object.values(eventLabels).length,17)
 })
 test('horário exibido usa fuso de Brasília',()=>{
  const value=formatHubDate('2026-10-10T02:30:00.000Z')

@@ -10,7 +10,7 @@ const sections = [
   { label: 'WORKSPACE', links: [
     { href: '/dashboard', label: 'Visão geral', icon: LayoutDashboard, ready: true },
     { href: '/projects', label: 'Projetos & Sites', icon: FolderKanban, ready: true },
-    { href: '/github', label: 'Repositórios', icon: GitBranch, ready: false },
+    { href: '/github', label: 'Repositórios', icon: GitBranch, ready: true },
   ] },
   { label: 'GESTÃO', links: [
     { href: '/financeiro', label: 'Financeiro', icon: Wallet, ready: false },
@@ -52,7 +52,7 @@ export function Shell({ member, children }: { member: Member, children: React.Re
         <div className="topbar-actions"><span className="private-pill"><span className="online-dot"/>Ambiente privado</span><Link className="help-link" href="/settings">Minha conta<ArrowUpRight size={14}/></Link><form action={signOutAction}><button className="icon-button" aria-label="Sair da conta" title="Sair"><LogOut size={17}/></button></form></div>
       </header>
       <main className="main-content">{children}</main>
-      <footer className="app-footer"><span>© {new Date().getFullYear()} Arceuz Technology</span><span>Arceuz Hub · v0.6 · Funcionários</span></footer>
+      <footer className="app-footer"><span>© {new Date().getFullYear()} Arceuz Technology</span><span>Arceuz Hub · v0.7 · Repositórios</span></footer>
     </div>
   </div>
 }

@@ -148,3 +148,64 @@
 .employee-note{display:flex;align-items:center;gap:8px;margin:14px 0;color:var(--muted);font-size:11px;line-height:1.55}
 @media(max-width:860px){.employee-people{grid-template-columns:1fr}.employee-history-head{align-items:flex-start;flex-direction:column}.employee-event{flex-wrap:wrap}.employee-event time{margin-left:48px}}
 @media(max-width:520px){.employee-stats{grid-template-columns:1fr}.employee-history{padding:16px}.employee-history-head form{flex-wrap:wrap}.employee-note{align-items:flex-start}}
+
+
+/* Arceuz Hub — modulo Repositorios */
+.repo-header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.repo-stat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.repo-stat{padding:18px;display:flex;align-items:center;gap:13px}
+.repo-stat svg{color:var(--accent);flex:none}.repo-stat b{font-size:23px;color:var(--text);display:block}.repo-stat span{font-size:11px;color:var(--muted)}
+.repo-filterbar{padding:16px;display:flex;gap:12px;align-items:center;margin-bottom:19px}
+.repo-filterbar .project-search{flex:1}
+.repo-filterbar select{min-width:190px;min-height:43px;border:1px solid var(--border);border-radius:8px;background:var(--surface2);color:var(--text);font-size:12px;padding:0 12px}
+.repo-grid,.repo-discover-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.repo-card{padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.repo-card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.repo-git-icon{width:41px;height:41px;flex:none;display:grid;place-items:center;background:var(--accent-soft);border:1px solid rgba(255,130,45,.22);color:var(--accent);border-radius:10px}
+.repo-state{display:inline-flex;align-items:center;padding:6px 8px;font-size:10px;font-weight:800;color:var(--muted);border:1px solid var(--border);background:var(--surface2);border-radius:6px}
+.repo-state-ok{color:#70cba0;background:rgba(85,184,130,.10);border-color:rgba(85,184,130,.26)}
+.repo-state-unavailable{color:#e9b66d;background:rgba(245,166,60,.08);border-color:rgba(245,166,60,.22)}
+.repo-card-name{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--text);font-size:15px;font-weight:800;overflow-wrap:anywhere}
+.repo-card-name svg{color:var(--accent);flex:none}.repo-card-name:hover{color:var(--accent)}
+.repo-description{font-size:12px;line-height:1.6;color:var(--muted);overflow-wrap:anywhere;min-height:40px;margin:0}
+.repo-meta{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+.repo-meta span{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px;overflow-wrap:anywhere}
+.repo-meta svg{color:var(--accent);flex:none}
+.repo-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:13px;border-top:1px solid var(--border)}
+.repo-card-bottom>span{font-size:11px;color:var(--subtle)}
+.repo-card-bottom>div{display:flex;align-items:center;gap:11px}
+.repo-card-bottom a{display:inline-flex;gap:5px;align-items:center;color:var(--accent);font-size:11px}
+.repo-note,.repo-hint{font-size:11px;color:var(--muted);line-height:1.6;margin-top:18px}
+.repo-detail-panel,.repo-project-section,.repo-danger-section{padding:25px;margin-bottom:18px}
+.repo-detail-header{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.repo-detail-title{display:flex;align-items:center;gap:13px;min-width:0}
+.repo-detail-title h2{font-size:18px;margin:0 0 9px;overflow-wrap:anywhere}
+.repo-detail-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.repo-detail-description{color:var(--muted);font-size:13px;line-height:1.6;margin:22px 0}
+.repo-detail-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.repo-detail-stats>div{background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:16px}
+.repo-detail-stats span{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:11px;margin-bottom:11px}
+.repo-detail-stats span svg{color:var(--accent)}
+.repo-detail-stats b{font-size:14px;color:var(--text);overflow-wrap:anywhere}
+.repo-sync-info{font-size:11px;color:var(--subtle);margin-top:16px}
+.repo-section-heading{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.repo-section-heading>svg{color:var(--accent)}
+.repo-section-heading h2{font-size:16px;margin:0 0 6px}
+.repo-section-heading p{font-size:12px;color:var(--muted);margin:0}
+.repo-link-form>label,.repo-remove-form label{font-size:11px;font-weight:800;display:block;margin-bottom:10px}
+.repo-link-form>div,.repo-remove-form>div{display:flex;align-items:center;gap:10px}
+.repo-link-form select,.repo-remove-form input{flex:1;min-height:44px;min-width:0;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:0 13px;font-size:12px}
+.repo-project-link{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-size:12px;margin-top:15px}
+.repo-remove-button{color:#e99086!important}
+.repo-notice{padding:12px 15px;color:#e9b66d;background:rgba(245,166,60,.08);border:1px solid rgba(245,166,60,.18);border-radius:8px;font-size:12px}
+.repo-discover-card{padding:20px;display:flex;flex-direction:column;gap:13px;min-width:0}
+.repo-discover-head{display:flex;gap:11px;align-items:center}
+.repo-discover-head svg{color:var(--accent);flex:none}.repo-discover-head h2{font-size:13px;margin:0;overflow-wrap:anywhere}
+.repo-discover-card p{color:var(--muted);font-size:12px;line-height:1.5;margin:0;flex:1}
+.repo-discover-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--border);padding-top:14px}
+.repo-discover-bottom>span{font-size:11px;color:var(--subtle)}
+.repo-discover-bottom>div{display:flex;align-items:center;gap:10px}
+.repo-discover-bottom>div>a{color:var(--accent)}
+@media(max-width:1200px){.repo-grid,.repo-discover-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:950px){.repo-stat-grid{grid-template-columns:1fr 1fr}.repo-detail-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.repo-detail-header{align-items:flex-start;flex-direction:column}}
+@media(max-width:700px){.repo-header-actions,.repo-filterbar,.repo-link-form>div,.repo-remove-form>div{align-items:stretch;flex-direction:column}.repo-filterbar select,.repo-filterbar .project-search{width:100%}.repo-grid,.repo-discover-grid,.repo-stat-grid,.repo-detail-stats{grid-template-columns:1fr}.repo-detail-panel,.repo-project-section,.repo-danger-section{padding:17px}}

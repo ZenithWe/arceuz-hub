@@ -22,17 +22,6 @@ export async function listTasks(filters:ReturnType<typeof taskFilters>){
  const member=await requireMember(),sql=db()
  const {q,status,priority,mine,overdue,page}=filters
  const offset=(page-1)*15
- const overdueCond="unused" // all query restrictions below are parameterized
- void overdueCond
- const conditions=sql`FROM hub_tasks t
-  LEFT JOIN hub_projects p ON p.id=t.project_id
-  LEFT JOIN hub_members m ON m.id=t.assigned_to
-  WHERE (${status}='all' OR t.status=${status})
-   AND (${priority}='all' OR t.priority=${priority})
-   AND (${mine}=false OR t.assigned_to=${member.id})
-   AND (${overdue}=false OR (t.due_on < (now() AT TIME ZONE 'America/Sao_Paulo')::date AND t.status<>'done'))
-   AND (${q}='' OR position(lower(${q}) in lower(t.title))>0 OR position(lower(${q}) in lower(coalesce(p.name,'')))>0)`
- // Query builders cannot interpolate a compiled SQL fragment with the HTTP driver, so repeat predicates.
  const [rows,counts]=await Promise.all([
  sql`SELECT t.id,t.title,t.description,t.status,t.priority,t.due_on::text AS due_on,
  t.assigned_to,m.name AS assignee_name,t.project_id,p.name AS project_name,

@@ -15,7 +15,7 @@ function validId(id:string){return /^[0-9a-f-]{36}$/i.test(id)}
 export async function createClientAction(_prev:State,form:FormData):Promise<State>{
  await requireMember()
  const parsed=parse(form)
- if(parsed.error)return {error:parsed.error}
+ if(!parsed.value)return {error:parsed.error??'Dados inválidos.'}
  const x=parsed.value
  let id:string
  try{
@@ -31,7 +31,7 @@ export async function editClientAction(id:string,_prev:State,form:FormData):Prom
  await requireMember()
  if(!validId(id))return {error:'Cliente inválido.'}
  const parsed=parse(form)
- if(parsed.error)return {error:parsed.error}
+ if(!parsed.value)return {error:parsed.error??'Dados inválidos.'}
  const x=parsed.value
  try{
   const sql=db()

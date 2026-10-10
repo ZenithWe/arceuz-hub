@@ -4,6 +4,8 @@ import {ArrowLeft,FolderKanban,CalendarClock} from 'lucide-react'
 import {notFound} from 'next/navigation'
 import {getTask,taskOptions} from '@/lib/tasks'
 import {TaskForm} from '@/components/task-form'
+import {DeleteRecordForm} from '@/components/delete-record-form'
+import {deleteTaskAction} from '../actions'
 import {brDate} from '@/lib/task-fields.mjs'
 export const metadata={title:'Editar tarefa'}
 export default async function EditTask({params,searchParams}:{params:Promise<{id:string}>,searchParams:Promise<{criada?:string;salva?:string}>}){
@@ -14,5 +16,6 @@ export default async function EditTask({params,searchParams}:{params:Promise<{id
  {(flags.criada==='1'||flags.salva==='1')&&<p className="project-success" role="status">{flags.criada==='1'?'Tarefa criada.':'Tarefa atualizada.'}</p>}
  <TaskForm task={task} owners={opts.owners} projects={opts.projects}/>
  <section className="panel task-detail-extra"><div><FolderKanban size={18}/><span>Projeto</span><strong>{task.project_name||'Sem vínculo'}</strong></div><div><CalendarClock size={18}/><span>Data prevista</span><strong>{brDate(task.due_on)}</strong></div></section>
+ <DeleteRecordForm title="Excluir tarefa" itemLabel={task.title} description="Remove esta tarefa definitivamente do Hub. O projeto e os demais dados vinculados continuam intactos." action={deleteTaskAction.bind(null,id)}/>
  </div>
 }

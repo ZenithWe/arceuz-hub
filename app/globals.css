@@ -312,3 +312,19 @@
 @media(max-width:1150px){.ai-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:850px){.ai-workspace{grid-template-columns:1fr}.ai-sidebar{position:static;min-height:0}.ai-sidebar-list{max-height:150px;overflow:auto}}
 @media(max-width:600px){.ai-mode-grid{grid-template-columns:1fr}.ai-welcome{align-items:flex-start;flex-direction:column;padding:17px}.ai-composer-footer{flex-direction:column;align-items:stretch}.ai-send{width:100%}.ai-room-head{flex-direction:column;align-items:flex-start}.ai-chat-start{padding:14px}.ai-message-list{padding:12px}}
+
+/* Ações destrutivas internas — sempre exigem EXCLUIR */
+.hub-delete-panel{margin-top:19px;max-width:1010px;padding:22px;border-color:rgba(230,99,96,.29)}
+.hub-delete-heading{display:flex;align-items:flex-start;gap:12px}
+.hub-delete-heading>svg{color:#ef8a85;flex:none;margin-top:2px}
+.hub-delete-heading h2{font-size:15px;color:var(--text);margin:0 0 8px}
+.hub-delete-heading p{color:var(--muted);font-size:12px;line-height:1.7;max-width:750px;margin:0}
+.hub-delete-form{margin-top:17px}
+.hub-delete-form label{display:block;color:var(--muted);font-size:11px;line-height:1.6;margin-bottom:10px}
+.hub-delete-form strong{color:var(--text)}
+.hub-delete-row{display:flex;gap:11px;align-items:center}
+.hub-delete-row input{min-height:43px;min-width:0;flex:1;max-width:310px;background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.hub-delete-button{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;min-height:43px;border:1px solid rgba(244,104,94,.6);border-radius:8px;color:#ffc0b9;background:rgba(227,82,74,.13);font-size:12px;font-weight:800}
+.hub-delete-button:hover:not(:disabled){background:rgba(227,82,74,.24)}
+.hub-delete-button:disabled{opacity:.4}
+@media(max-width:650px){.hub-delete-panel{padding:16px}.hub-delete-row{align-items:stretch;flex-direction:column}.hub-delete-row input{max-width:none;width:100%}}

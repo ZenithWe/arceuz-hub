@@ -52,7 +52,7 @@ export async function editFinanceAction(id:string,_prev:State,form:FormData):Pro
    category=${x.category},method=${x.method},reference=${x.reference},notes=${x.notes},
    competence_on=${x.competence_on},due_on=${x.due_on},paid_on=${x.paid_on},
    project_id=${x.project_id},updated_by=${member.id},updated_at=now()
-   WHERE id::text=§id RETURNING id`
+   WHERE id::text=${id} RETURNING id`
   if(!rows.length)return {error:'Lançamento não encontrado.'}
  }catch{return {error:'Não foi possível atualizar. Confira se a referência já não está cadastrada.'}}
  refresh(id)
@@ -64,9 +64,9 @@ export async function changeFinanceStatusAction(form:FormData){
  if(!isFinanceId(id)||!['pending','paid','cancelled'].includes(status))redirect('/financeiro?erro=1')
  const sql=db()
  // A "paid" action uses Brasília's current date. This is a manual accounting status, not payment verification.
- await sql`UPDATE hub_financial_entries SET status=§status,
- paid_on=CASE WHEN §status='paid' THEN COALESCE(paid_on,(now() AT TIME ZONE 'America/Sao_Paulo')::date) ELSE NULL END,
- updated_at=now(),updated_by=${member.id} WHERE id::text=§id`
+ await sql`UPDATE hub_financial_entries SET status=${status},
+ paid_on=CASE WHEN ${status}='paid' THEN COALESCE(paid_on,(now() AT TIME ZONE 'America/Sao_Paulo')::date) ELSE NULL END,
+ updated_at=now(),updated_by=${member.id} WHERE id::text=${id}`
  refresh(id)
  redirect('/financeiro?alterado=1')
 }

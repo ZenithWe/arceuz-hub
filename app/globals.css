@@ -328,3 +328,65 @@
 .hub-delete-button:hover:not(:disabled){background:rgba(227,82,74,.24)}
 .hub-delete-button:disabled{opacity:.4}
 @media(max-width:650px){.hub-delete-panel{padding:16px}.hub-delete-row{align-items:stretch;flex-direction:column}.hub-delete-row input{max-width:none;width:100%}}
+
+
+/* Arceuz Hub — Propostas */
+.proposal-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:19px}
+.proposal-stat{padding:18px;display:flex;gap:13px;align-items:center;min-width:0}
+.proposal-stat>svg{flex:none;color:var(--accent)}.proposal-stat b{font-size:20px;color:var(--text);display:block;overflow-wrap:anywhere}
+.proposal-stat span{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.proposal-filters{padding:15px;display:flex;align-items:center;gap:11px;margin-bottom:20px}
+.proposal-filters .project-search{flex:1}.proposal-filters select{border:1px solid var(--border);background:var(--surface2);color:var(--text);border-radius:8px;padding:11px;font-size:12px;min-width:170px}
+.proposal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.proposal-card{padding:20px;display:flex;flex-direction:column;gap:13px;min-width:0}
+.proposal-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.proposal-document{display:grid;place-items:center;border-radius:10px;height:43px;width:43px;background:var(--accent-soft);color:var(--accent)}
+.proposal-pill{padding:6px 9px;border:1px solid var(--border);border-radius:7px;color:var(--muted);font-weight:800;font-size:10px}
+.proposal-pill-accepted{color:#75dbac;background:rgba(58,168,105,.08);border-color:rgba(58,168,105,.25)}
+.proposal-pill-rejected{color:#f1918a;background:rgba(219,81,72,.09);border-color:rgba(219,81,72,.24)}
+.proposal-pill-negotiation,.proposal-pill-sent{color:#f1b86d;background:rgba(241,184,109,.08)}
+.proposal-card-title{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--text);font-size:15px;font-weight:850;overflow-wrap:anywhere}
+.proposal-card-title svg{color:var(--accent);flex:none}.proposal-card-title:hover{color:var(--accent)}
+.proposal-card-scope{font-size:12px;color:var(--muted);line-height:1.6;min-height:56px;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;white-space:pre-line;margin:0}
+.proposal-card-meta{display:flex;flex-direction:column;gap:9px;margin-top:auto}
+.proposal-card-meta span{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px;overflow-wrap:anywhere}
+.proposal-card-meta svg{color:var(--accent);flex:none}
+.proposal-card-value{color:var(--accent);font-size:18px}
+.proposal-status-form{display:flex;align-items:center;gap:7px;padding-top:13px;border-top:1px solid var(--border)}
+.proposal-status-form label{font-size:10px;color:var(--muted);white-space:nowrap}
+.proposal-status-form select{flex:1;min-width:0;max-width:160px;padding:8px 5px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:10px}
+.proposal-status-form button{padding:8px}
+.proposal-head-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.proposal-note{display:flex;align-items:flex-start;gap:8px;color:var(--muted);font-size:11px;line-height:1.6;margin:18px 0}
+.proposal-print-page{margin:0 auto;max-width:1000px}
+.proposal-print-tools{display:flex;justify-content:space-between;gap:15px;margin-bottom:17px}
+.proposal-paper{background:#fff;color:#171717;border-radius:8px;padding:55px 58px;font-family:Arial,Helvetica,sans-serif;box-shadow:0 15px 55px rgba(0,0,0,.19)}
+.proposal-paper-head{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:2px solid #1a1a1a;padding-bottom:24px}
+.proposal-brand{font-size:29px;letter-spacing:1.3px}.proposal-brand span{font-size:12px;vertical-align:top}
+.proposal-brand-sub{display:block;font-size:8px;letter-spacing:2px;margin-top:7px}
+.proposal-paper-head>strong{font-size:12px;letter-spacing:1.5px}
+.proposal-paper-intro{padding:35px 0 24px}.proposal-paper-intro>p:first-child{color:#b5650d;font-size:10px;font-weight:800;letter-spacing:1.6px}
+.proposal-paper-intro h1{font-size:27px;line-height:1.3;letter-spacing:-.5px;margin:10px 0 18px}
+.proposal-paper-intro p{font-size:13px;margin:7px 0;color:#444}
+.proposal-paper-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;background:#f6f6f6;padding:19px;margin-bottom:31px}
+.proposal-paper-grid>div span{display:block;font-size:9px;font-weight:800;color:#777;letter-spacing:.5px;margin-bottom:8px}
+.proposal-paper-grid>div b{display:block;font-size:13px;overflow-wrap:anywhere}
+.proposal-paper section{padding:0 0 15px;break-inside:avoid}
+.proposal-paper section h2{font-size:15px;border-bottom:1px solid #e1e1e1;padding-bottom:10px;margin-bottom:14px}
+.proposal-paper section p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.75;color:#333}
+.proposal-paper-total{display:flex;align-items:center;justify-content:space-between;background:#171717;color:#fff;padding:23px;margin:25px 0 50px}
+.proposal-paper-total>span{font-size:13px}.proposal-paper-total strong{font-size:23px}
+.proposal-paper-signatures{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:45px 0;break-inside:avoid}
+.proposal-paper-signatures span{display:block;color:#888}.proposal-paper-signatures p{font-size:10px;letter-spacing:.6px}
+.proposal-paper footer{border-top:1px solid #ddd;padding-top:16px;font-size:9px;text-align:center;color:#666}
+@media(max-width:1250px){.proposal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.proposal-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.proposal-summary,.proposal-grid{grid-template-columns:1fr}.proposal-filters{align-items:stretch;flex-direction:column}.proposal-filters select,.proposal-filters .project-search{width:100%}.proposal-paper{padding:23px}.proposal-paper-head{align-items:flex-start;flex-direction:column}.proposal-paper-grid{grid-template-columns:1fr}.proposal-paper-signatures{grid-template-columns:1fr}.proposal-print-tools,.proposal-head-actions{flex-wrap:wrap}}
+@media print{
+ @page{size:A4;margin:14mm}
+ html,body{margin:0!important;padding:0!important;background:#fff!important;color:#111!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .sidebar,.topbar,.app-footer,.proposal-print-tools,.proposal-print-note,.sidebar-overlay{display:none!important}
+ .hub,.app-workspace,.main-content,.proposal-print-page{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;overflow:visible!important;background:#fff!important}
+ .proposal-paper{box-shadow:none!important;border-radius:0!important;padding:0!important;width:100%!important;min-height:0!important}
+ .proposal-paper-total{background:#171717!important;color:#fff!important}
+ .proposal-paper section,.proposal-paper-signatures,.proposal-paper-grid{break-inside:avoid}
+}
